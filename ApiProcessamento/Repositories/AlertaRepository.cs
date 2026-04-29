@@ -1,8 +1,7 @@
 ﻿using ApiProcessamento.Data;
-using ApiProcessamento.Models;
 using ApiProcessamento.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-
+using Shared;
 
 namespace ApiProcessamento.Repositories
 {
@@ -26,7 +25,7 @@ namespace ApiProcessamento.Repositories
 
         public async Task SalvarLeituraAsync(LeituraSensor leitura)
         {
-            _context.LeiturasSensor.Add(leitura);
+            _context.Leituras.Add(leitura);
             await _context.SaveChangesAsync();
         }
 

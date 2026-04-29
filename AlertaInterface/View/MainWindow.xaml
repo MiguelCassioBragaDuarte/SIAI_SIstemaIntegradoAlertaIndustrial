@@ -3,10 +3,88 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AlertaInterface"
+        xmlns:vm="clr-namespace:AlertaInterface.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="SIAI - Sistema Integrado de Alerta Industrial" Height="500" Width="900"
+        WindowStartupLocation="CenterScreen">
 
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <Grid Background="#F0F2F5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#2C3E50" Padding="20">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left">
+                    <TextBlock Text="MONITORAMENTO DE ALERTAS" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="Painel de Controle Industrial v1.0" Foreground="#BDC3C7"/>
+                </StackPanel>
+
+                <Button Content="ATUALIZAR DADOS" 
+                        Command="{Binding CarregarAlertasCommand}"
+                        DockPanel.Dock="Right" 
+                        Width="150" Height="35" 
+                        Background="#E67E22" Foreground="White" FontWeight="Bold"
+                        Cursor="Hand">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </DockPanel>
+        </Border>
+
+        <DataGrid Grid.Row="1" 
+                  ItemsSource="{Binding ListaAlertas}" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True" 
+                  Margin="15"
+                  Background="White"
+                  AlternatingRowBackground="#F9F9F9"
+                  GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="#DDDDDD"
+                  BorderThickness="1"
+                  BorderBrush="#CCCCCC">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Data/Hora" Binding="{Binding Leitura.DataHora, StringFormat='dd/MM/yyyy HH:mm:ss'}" Width="150"/>
+
+                <DataGridTextColumn Header="Equipamento" Binding="{Binding Leitura.SensorNome}" Width="150"/>
+
+                <DataGridTextColumn Header="Valor Lido" Binding="{Binding Leitura.Valor, StringFormat={}{0}°C}" Width="100"/>
+
+                <DataGridTemplateColumn Header="Gravidade" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding NivelGravidade}" Padding="5,2" CornerRadius="3">
+                                <TextBlock Text="{Binding NivelGravidade}" HorizontalAlignment="Center" FontWeight="Bold"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Descrição do Evento" Binding="{Binding Mensagem}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StatusBar Grid.Row="2" Background="#ECF0F1">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Total de Alertas: "/>
+                    <TextBlock Text="{Binding ListaAlertas.Count}" FontWeight="Bold"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="Conectado à API: https://localhost:7179"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

@@ -20,8 +20,8 @@ namespace AlertaInterface.ViewModels
         {
             ListaAlertas = new ObservableCollection<Shared.Alerta>();
             // No seu projeto, o RelayCommand deve aceitar uma Action
-            CarregarAlertasCommand = new RelayCommand(o => CarregarAlertas());
-            
+            CarregarAlertasCommand = new RelayCommand(CarregarAlertas);
+
             CarregarAlertas(); // Carrega ao iniciar
         }
 
