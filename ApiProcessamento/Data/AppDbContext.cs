@@ -1,6 +1,6 @@
-﻿using ApiProcessamento.Models;
+﻿
 using Microsoft.EntityFrameworkCore;
-using Sha
+using Shared;
 
 namespace ApiProcessamento.Data
 {

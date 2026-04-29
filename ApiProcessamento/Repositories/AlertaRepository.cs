@@ -9,27 +9,26 @@ namespace ApiProcessamento.Repositories
     {
         private readonly AppDbContext _context;
 
-        // Injeção do Contexto do Banco de Dados
         public AlertaRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Alerta>> ListarTodosAsync()
+        // Garanta que o retorno seja exatamente igual ao da Interface
+        public async Task<IEnumerable<Shared.Alerta>> ListarTodosAsync()
         {
-            // O .Include garante que os dados do Sensor venham junto com o Alerta
             return await _context.Alertas
                 .Include(a => a.Leitura)
                 .ToListAsync();
         }
 
-        public async Task SalvarLeituraAsync(LeituraSensor leitura)
+        public async Task SalvarLeituraAsync(Shared.LeituraSensor leitura)
         {
-            _context.Leituras.Add(leitura);
+            _context.LeiturasSensor.Add(leitura);
             await _context.SaveChangesAsync();
         }
 
-        public async Task CriarAlertaAsync(Alerta alerta)
+        public async Task CriarAlertaAsync(Shared.Alerta alerta)
         {
             _context.Alertas.Add(alerta);
             await _context.SaveChangesAsync();

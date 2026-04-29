@@ -1,4 +1,6 @@
-﻿using ApiProcessamento.Models;
+﻿
+
+using Shared;
 
 namespace ApiProcessamento.Repositories.Interfaces
 {
