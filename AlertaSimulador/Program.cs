@@ -3,7 +3,8 @@ using System.Net.Http.Json;
 
 
 var http = new HttpClient();
-string urlApi = "https://localhost:7179/api/Alerta";
+string urlApi = "https://localhost:7127/api/Alerta";
+
 
 Console.WriteLine("--- SIMULADOR DE SENSOR INDUSTRIAL INICIADO ---");
 
