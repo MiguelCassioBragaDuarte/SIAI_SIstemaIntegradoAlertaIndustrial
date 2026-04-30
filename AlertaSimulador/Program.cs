@@ -6,6 +6,8 @@ using Shared.DTOs;
 var http = new HttpClient();
 string urlApi = "https://localhost:7127/api/Alerta";
 
+Console.WriteLine("Aguardando a API estabilizar...");
+Thread.Sleep(3000);
 
 Console.WriteLine("--- SIMULADOR DE SENSOR INDUSTRIAL INICIADO ---");
 

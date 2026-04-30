@@ -5,24 +5,26 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 using AlertaInterface.Commands;
-using Shared;
+using Shared.DTOs;
 
 namespace AlertaInterface.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        // Usando a sua classe Alerta do Shared
-        public ObservableCollection<Shared.Alerta> ListaAlertas { get; set; }
+        
+        public ObservableCollection<AlertaDTO> ListaAlertas { get; set; }
 
         public ICommand CarregarAlertasCommand { get; }
 
         public MainViewModel()
         {
-            ListaAlertas = new ObservableCollection<Shared.Alerta>();
-            // No seu projeto, o RelayCommand deve aceitar uma Action
+            
+            ListaAlertas = new ObservableCollection<AlertaDTO>();
+
+
             CarregarAlertasCommand = new RelayCommand(CarregarAlertas);
 
-            CarregarAlertas(); // Carrega ao iniciar
+            CarregarAlertas();
         }
 
         private async void CarregarAlertas()
@@ -32,13 +34,12 @@ namespace AlertaInterface.ViewModels
                 using var http = new HttpClient();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-                // Ajuste a URL para o seu endpoint de Alertas
-                var dados = await http.GetFromJsonAsync<List<Shared.Alerta>>(
+              
+                var dados = await http.GetFromJsonAsync<List<AlertaDTO>>(
                     "https://localhost:7127/api/Alerta", options);
 
                 if (dados != null)
                 {
-                    // O Dispatcher garante que a UI não trave e atualize corretamente
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         ListaAlertas.Clear();
@@ -51,7 +52,7 @@ namespace AlertaInterface.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao conectar na API: {ex.Message}");
+                MessageBox.Show($"Certifique-se de que a API está rodando na porta 7127.\nErro: {ex.Message}");
             }
         }
     }
