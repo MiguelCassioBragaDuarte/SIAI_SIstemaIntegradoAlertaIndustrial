@@ -8,5 +8,7 @@ namespace ApiProcessamento.Repositories.Interfaces
         Task<IEnumerable<Alerta>> ListarTodosAsync();
         Task SalvarLeituraAsync(LeituraSensor leitura);
         Task CriarAlertaAsync(Alerta alerta);
+
+        Task DeletarAlertaAsync(int id);
     }
 }

@@ -1,6 +1,12 @@
 ﻿using Shared;
 using System.Net.Http.Json;
 using Shared.DTOs;
+using AlertaSimulador.Data;
+
+using (var db = new SimuladorContext())
+{
+    db.Database.EnsureCreated();
+}
 
 
 var http = new HttpClient();

@@ -33,5 +33,14 @@ namespace ApiProcessamento.Repositories
             _context.Alertas.Add(alerta);
             await _context.SaveChangesAsync();
         }
+        public async Task DeletarAlertaAsync(int id)
+        {
+            var alerta = await _context.Alertas.FindAsync(id);
+            if (alerta != null)
+            {
+                _context.Alertas.Remove(alerta);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

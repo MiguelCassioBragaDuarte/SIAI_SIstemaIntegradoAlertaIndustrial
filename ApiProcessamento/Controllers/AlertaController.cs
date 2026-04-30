@@ -65,6 +65,20 @@ namespace ApiProcessamento.Controllers
             }
 
             return Ok(new { message = "Leitura persistida com sucesso via DTO!" });
+
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var alerta = await _repository.ListarTodosAsync();
+            if (!alerta.Any(a => a.Id == id))
+            {
+                return NotFound("Alerta não encontrado no banco central.");
+            }
+
+            await _repository.DeletarAlertaAsync(id);
+            return Ok(new { message = $"Alerta {id} removido com sucesso!" });
         }
     }
 }
