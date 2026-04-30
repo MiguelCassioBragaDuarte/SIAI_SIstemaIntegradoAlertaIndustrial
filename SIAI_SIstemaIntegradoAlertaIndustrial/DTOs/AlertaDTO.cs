@@ -9,8 +9,10 @@ namespace Shared.DTOs
     public class AlertaDTO
     {
         public int Id { get; set; }
-        public string Mensagem { get; set; }
-        public int NivelGravidade { get; set; }
-        public DateTime DataHoraLeitura { get; set; } // Dado que vem da Leitura
+        public string Mensagem { get; set; } 
+        public int NivelGravidade { get; set; } 
+        public DateTime DataHora { get; set; }
+        public string Equipamento { get; set; }
+        public double ValorLido { get; set; }
     }
 }
