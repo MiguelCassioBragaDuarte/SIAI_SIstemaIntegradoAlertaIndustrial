@@ -14,9 +14,10 @@ namespace ApiProcessamento.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LeituraSensor>().HasKey(m => m.Id);
-
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Alerta>()
+                .HasOne(a => a.Leitura)
+                .WithMany()
+                .HasForeignKey(a => a.LeituraSensorId);
         }
     }
 }

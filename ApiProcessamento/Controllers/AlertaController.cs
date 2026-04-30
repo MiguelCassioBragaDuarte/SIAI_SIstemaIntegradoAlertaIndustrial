@@ -18,7 +18,6 @@ namespace ApiProcessamento.Controllers
         }
 
         [HttpGet]
-        [HttpGet]
         public async Task<ActionResult<IEnumerable<AlertaDTO>>> GetAlertas()
         {
             var alertasBanco = await _repository.ListarTodosAsync();

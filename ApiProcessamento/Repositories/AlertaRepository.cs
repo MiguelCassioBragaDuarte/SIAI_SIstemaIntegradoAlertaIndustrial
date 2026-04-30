@@ -16,7 +16,7 @@ namespace ApiProcessamento.Repositories
 
         public async Task<IEnumerable<Alerta>> ListarTodosAsync()
         {
-            // O Include garante que os dados do Sensor venham junto com o Alerta
+            
             return await _context.Alertas
                 .Include(a => a.Leitura)
                 .ToListAsync();
