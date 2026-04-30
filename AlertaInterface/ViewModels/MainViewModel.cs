@@ -9,7 +9,7 @@ using Shared;
 
 namespace AlertaInterface.ViewModels
 {
-    internal class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
         // Usando a sua classe Alerta do Shared
         public ObservableCollection<Shared.Alerta> ListaAlertas { get; set; }
@@ -34,7 +34,7 @@ namespace AlertaInterface.ViewModels
 
                 // Ajuste a URL para o seu endpoint de Alertas
                 var dados = await http.GetFromJsonAsync<List<Shared.Alerta>>(
-                    "https://localhost:7179/api/Alerta", options);
+                    "https://localhost:7127/api/Alerta", options);
 
                 if (dados != null)
                 {

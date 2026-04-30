@@ -14,21 +14,21 @@ namespace ApiProcessamento.Repositories
             _context = context;
         }
 
-        // Garanta que o retorno seja exatamente igual ao da Interface
-        public async Task<IEnumerable<Shared.Alerta>> ListarTodosAsync()
+        public async Task<IEnumerable<Alerta>> ListarTodosAsync()
         {
+            // O Include garante que os dados do Sensor venham junto com o Alerta
             return await _context.Alertas
                 .Include(a => a.Leitura)
                 .ToListAsync();
         }
 
-        public async Task SalvarLeituraAsync(Shared.LeituraSensor leitura)
+        public async Task SalvarLeituraAsync(LeituraSensor leitura)
         {
             _context.LeiturasSensor.Add(leitura);
             await _context.SaveChangesAsync();
         }
 
-        public async Task CriarAlertaAsync(Shared.Alerta alerta)
+        public async Task CriarAlertaAsync(Alerta alerta)
         {
             _context.Alertas.Add(alerta);
             await _context.SaveChangesAsync();
