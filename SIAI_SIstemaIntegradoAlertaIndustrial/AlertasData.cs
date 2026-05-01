@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using System.ComponentModel.DataAnnotations;
+
+/// <summary>
 /// PROJETO SHARED: Biblioteca de classes compartilhadas.
 /// Serve como o "Contrato Único" da solução, garantindo que o Simulador, 
 /// a API e a Interface WPF utilizem a mesma estrutura de dados.
@@ -7,6 +9,7 @@ namespace Shared
 {
     public class LeituraSensor
     {
+        [Key]
         public int Id { get; set; }
         public string SensorNome { get; set; } 
         public double Valor { get; set; } 
@@ -16,8 +19,9 @@ namespace Shared
 
     public class Alerta
     {
+        [Key]
         public int Id { get; set; }
-        public int LeituraSensorId { get; set; } 
+        public int? LeituraSensorId { get; set; }
         public string Mensagem { get; set; } 
         public int NivelGravidade { get; set; } 
         public bool Resolvido { get; set; } 

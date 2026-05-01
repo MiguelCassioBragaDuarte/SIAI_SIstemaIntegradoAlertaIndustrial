@@ -68,6 +68,33 @@ namespace ApiProcessamento.Controllers
 
         }
 
+        [HttpPost("manual")]
+        public async Task<ActionResult> PostManual([FromBody] AlertaDTO alertaDto)
+        {
+            if (alertaDto == null) return BadRequest("Dados inválidos");
+
+            try
+            {
+                var novoAlerta = new Alerta
+                {
+                    
+                    Mensagem = "[MANUAL] " + alertaDto.Mensagem,
+                    NivelGravidade = alertaDto.NivelGravidade,
+                    Resolvido = false,
+                    LeituraSensorId = null 
+                };
+
+                await _repository.CriarAlertaAsync(novoAlerta);
+
+                return Ok(new { message = "Persistido com sucesso no SQL Server!" });
+            }
+            catch (Exception ex)
+            {
+                
+                return BadRequest($"Erro no Banco: {ex.InnerException?.Message ?? ex.Message}");
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
