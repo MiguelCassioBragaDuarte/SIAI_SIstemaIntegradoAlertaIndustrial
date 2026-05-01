@@ -17,13 +17,13 @@ namespace ApiProcessamento.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.12");
 
-            modelBuilder.Entity("ApiProcessamento.Models.Alerta", b =>
+            modelBuilder.Entity("Shared.Alerta", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("LeituraSensorId")
+                    b.Property<int?>("LeituraSensorId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Mensagem")
@@ -43,7 +43,7 @@ namespace ApiProcessamento.Migrations
                     b.ToTable("Alertas");
                 });
 
-            modelBuilder.Entity("ApiProcessamento.Models.LeituraSensor", b =>
+            modelBuilder.Entity("Shared.LeituraSensor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,13 +68,11 @@ namespace ApiProcessamento.Migrations
                     b.ToTable("LeiturasSensor");
                 });
 
-            modelBuilder.Entity("ApiProcessamento.Models.Alerta", b =>
+            modelBuilder.Entity("Shared.Alerta", b =>
                 {
-                    b.HasOne("ApiProcessamento.Models.LeituraSensor", "Leitura")
+                    b.HasOne("Shared.LeituraSensor", "Leitura")
                         .WithMany()
-                        .HasForeignKey("LeituraSensorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LeituraSensorId");
 
                     b.Navigation("Leitura");
                 });

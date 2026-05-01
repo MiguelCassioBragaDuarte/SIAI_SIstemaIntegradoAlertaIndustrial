@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:AlertaInterface.ViewModels"
         mc:Ignorable="d"
-        Title="SIAI - Sistema Integrado de Alerta Industrial" Height="500" Width="900"
+        Title="SIAI - Sistema Integrado de Alerta Industrial" Height="600" Width="950"
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
@@ -19,71 +19,84 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#2C3E50" Padding="20">
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Left">
-                    <TextBlock Text="MONITORAMENTO DE ALERTAS" FontSize="20" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Painel de Controle Industrial v1.0" Foreground="#BDC3C7"/>
-                </StackPanel>
-
-                <Button Content="ATUALIZAR DADOS" 
-                        Command="{Binding CarregarAlertasCommand}"
-                        DockPanel.Dock="Right" 
-                        Width="150" Height="35" 
-                        Background="#E67E22" Foreground="White" FontWeight="Bold"
-                        Cursor="Hand">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-            </DockPanel>
+        <Border Grid.Row="0" Background="#2C3E50" Padding="15">
+            <StackPanel>
+                <TextBlock Text="SIAI - PAINEL CENTRAL" FontSize="22" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Gestão de Alertas e Persistência Distribuída" Foreground="#BDC3C7"/>
+            </StackPanel>
         </Border>
 
-        <DataGrid Grid.Row="1" 
-                  ItemsSource="{Binding ListaAlertas}" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True" 
-                  Margin="15"
-                  Background="White"
-                  AlternatingRowBackground="#F9F9F9"
-                  GridLinesVisibility="Horizontal"
-                  HorizontalGridLinesBrush="#DDDDDD"
-                  BorderThickness="1"
-                  BorderBrush="#CCCCCC">
+        <TabControl Grid.Row="1" Margin="10" Background="Transparent" BorderThickness="0">
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Data/Hora" Binding="{Binding DataHora, StringFormat='dd/MM/yyyy HH:mm:ss'}" Width="150"/>
+            <TabItem Header="📊 MONITORAMENTO">
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <DataGridTextColumn Header="Equipamento" Binding="{Binding Equipamento}" Width="150"/>
+                    <Button Content="🔄 ATUALIZAR LISTA DA API" 
+                            Command="{Binding CarregarAlertasCommand}"
+                            HorizontalAlignment="Right" Margin="10" Padding="15,5"
+                            Background="#E67E22" Foreground="White" FontWeight="Bold"/>
 
-                <DataGridTextColumn Header="Valor Lido" Binding="{Binding ValorLido, StringFormat={}{0}°C}" Width="100"/>
+                    <DataGrid Grid.Row="1" 
+                              ItemsSource="{Binding ListaAlertas}" 
+                              AutoGenerateColumns="False" IsReadOnly="True"
+                              Margin="5" BorderThickness="0" AlternatingRowBackground="#F9F9F9">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data/Hora" Binding="{Binding DataHora, StringFormat='dd/MM/yyyy HH:mm:ss'}" Width="150"/>
+                            <DataGridTextColumn Header="Equipamento" Binding="{Binding Equipamento}" Width="150"/>
+                            <DataGridTextColumn Header="Valor" Binding="{Binding ValorLido, StringFormat={}{0}°C}" Width="80"/>
+                            <DataGridTextColumn Header="Gravidade" Binding="{Binding NivelGravidade}" Width="80"/>
+                            <DataGridTextColumn Header="Mensagem" Binding="{Binding Mensagem}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
 
-                <DataGridTemplateColumn Header="Gravidade" Width="100">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Border Padding="5,2" CornerRadius="3">
-                                <TextBlock Text="{Binding NivelGravidade}" HorizontalAlignment="Center" FontWeight="Bold"/>
-                            </Border>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+            <TabItem Header="⚙️ GERENCIAMENTO" Height="20" VerticalAlignment="Top">
+                <Border Background="White" Padding="30">
+                    <StackPanel MaxWidth="500" HorizontalAlignment="Left">
+                        <TextBlock Text="CADASTRO MANUAL DE ALERTA" FontSize="18" FontWeight="Bold" Margin="0,0,0,20" Foreground="#2C3E50"/>
 
-                <DataGridTextColumn Header="Descrição do Evento" Binding="{Binding Mensagem}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                        <TextBlock Text="Descrição do Evento:" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding NovaMensagem, UpdateSourceTrigger=PropertyChanged}" 
+                     Height="35" VerticalContentAlignment="Center" Margin="0,0,0,15"/>
 
-        <StatusBar Grid.Row="2" Background="#ECF0F1">
+                        <TextBlock Text="Nível de Gravidade:" Margin="0,0,0,5"/>
+                        <ComboBox SelectedValue="{Binding NovaGravidade}" 
+                      SelectedValuePath="Tag" Height="35" Margin="0,0,0,25">
+                            <ComboBoxItem Content="1 - Informativo" Tag="1"/>
+                            <ComboBoxItem Content="2 - Atenção" Tag="2"/>
+                            <ComboBoxItem Content="3 - Crítico" Tag="3"/>
+                        </ComboBox>
+
+                        <Button Content="SALVAR E PERSISTIR" 
+                    Command="{Binding SalvarManualCommand}"
+                    Height="45" Background="#2980B9" Foreground="White" FontWeight="Bold" FontSize="14">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </TabItem>
+
+        </TabControl>
+
+        <StatusBar Grid.Row="2" Background="#ECF0F1" Padding="5">
             <StatusBarItem>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Total de Alertas: "/>
-                    <TextBlock Text="{Binding ListaAlertas.Count}" FontWeight="Bold"/>
-                </StackPanel>
+                <TextBlock Text="Alertas ativos: "/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding ListaAlertas.Count}" FontWeight="Bold"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock Text="Conectado à API: https://localhost:7179"/>
+                <TextBlock Text="Sincronizado com SQL Server"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>
